@@ -16,6 +16,19 @@ public class Tool {
 	private String description;
 	private List<String> tags = new ArrayList<>();
 
+	public Tool() {
+		
+	}
+	
+	public Tool(String title, String link, String description, List<String> tags) {
+		
+		this.title = title;
+		this.link = link;
+		this.description = description;
+		this.tags = tags;
+		
+	}
+
 	public String getId() {
 		return id;
 	}
