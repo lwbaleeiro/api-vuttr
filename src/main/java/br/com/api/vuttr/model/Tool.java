@@ -1,12 +1,18 @@
 package br.com.api.vuttr.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
-public class Ferramenta {
+public class Tool {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,6 +20,9 @@ public class Ferramenta {
 	private String title;
 	private String link;
 	private String description;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<Tag> tags = new ArrayList<>();
+	
 
 	public Long getId() {
 		return id;
@@ -46,5 +55,14 @@ public class Ferramenta {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
+
 
 }
