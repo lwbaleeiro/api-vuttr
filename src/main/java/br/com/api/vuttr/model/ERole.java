@@ -1,5 +1,0 @@
-package br.com.api.vuttr.model;
-
-public enum ERole {
-	ROLE_USER, ROLE_MODERATOR, ROLE_ADMIN
-}
