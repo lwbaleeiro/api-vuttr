@@ -1,6 +1,7 @@
 package br.com.api.vuttr.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +14,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import br.com.api.vuttr.model.Tool;
+import br.com.api.vuttr.repository.ToolRepository;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -21,20 +25,8 @@ public class ToolsControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 	
-	@Test
-	public void mustReturn400WhenAuthenticationIsFaliled() throws Exception {
-		URI uri = new URI("/auth");
-		String json = "{\"email\":\"invalido@email.com\",\"senha\":\"123456\"}";
-		
-		mockMvc
-		.perform(MockMvcRequestBuilders
-				.post(uri)
-				.content(json)
-				.contentType(MediaType.APPLICATION_JSON))
-		.andExpect(MockMvcResultMatchers
-				.status()
-				.is(400));
-	}
+	@Autowired
+	private ToolRepository toolRepository;
 	
 	@Test
 	public void mustReturn201WhenSaveNewTool() throws Exception {
@@ -50,6 +42,25 @@ public class ToolsControllerTest {
 			.andExpect(MockMvcResultMatchers
 					.status()
 					.is(201));
+		
+	}
+	
+	@Test
+	public void mustReturn204WhenDeleteTool() throws Exception {
+		
+		List<Tool> tools = toolRepository.findAll();
+		
+		String id = tools.get(0).getId();
+		
+		URI uri = new URI("/tools/" + id);
+		
+		mockMvc
+			.perform(MockMvcRequestBuilders
+					.delete(uri)
+					.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(MockMvcResultMatchers
+					.status()
+					.is(204));
 		
 	}
 	
