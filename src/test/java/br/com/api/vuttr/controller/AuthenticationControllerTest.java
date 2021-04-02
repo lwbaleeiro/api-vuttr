@@ -57,6 +57,66 @@ class AuthenticationControllerTest {
 			.andExpect(MockMvcResultMatchers.status().is(200));
 	
 	}
+	
+	@Test
+	public void mustReturn400WhenUsernameAlreadyExists() throws Exception {
+
+		mockMvc
+			.perform(MockMvcRequestBuilders
+				.post("/subs")
+				.content(jsonContent)
+				.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(MockMvcResultMatchers.status().is(400));
+	
+	}
+	
+	@Test
+	public void mustReturn400WhenUsernameIsNull() throws Exception {
+	    String json = "{\"password\":\"32duhhh12!@3\"}";
+		mockMvc
+			.perform(MockMvcRequestBuilders
+				.post("/subs")
+				.content(json)
+				.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(MockMvcResultMatchers.status().is(400));
+	
+	}
+	
+	@Test
+	public void mustReturn400WhenInvalidUsername() throws Exception {
+	    String json = "{\"username\":\"\",\"password\":\"213dd!!232\"}";
+		mockMvc
+			.perform(MockMvcRequestBuilders
+				.post("/subs")
+				.content(json)
+				.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(MockMvcResultMatchers.status().is(400));
+	
+	}
+	
+	@Test
+	public void mustReturn400WhenPasswordIsNull() throws Exception {
+	    String json =  "{\"username\":\"chico\"\"}";
+		mockMvc
+			.perform(MockMvcRequestBuilders
+				.post("/subs")
+				.content(json)
+				.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(MockMvcResultMatchers.status().is(400));
+	
+	}
+	
+	@Test
+	public void mustReturn400WhenInvalidPassword() throws Exception {
+	    String json = "{\"username\":\"chico\",\"password\":\"\"}";
+		mockMvc
+			.perform(MockMvcRequestBuilders
+				.post("/subs")
+				.content(json)
+				.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(MockMvcResultMatchers.status().is(400));
+	
+	}
 
 	@Test
 	public void mustAuthenticateUserAndReturn200() throws Exception {
