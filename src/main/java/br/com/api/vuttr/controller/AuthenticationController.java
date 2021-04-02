@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,9 @@ public class AuthenticationController {
 	@Autowired
 	private TokenService tokenService;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	@PostMapping("/subs")
 	private ResponseEntity<?> subscribleClient(@RequestBody AuthenticationRequest authenticationRequest) {
 	
@@ -41,14 +45,15 @@ public class AuthenticationController {
 		
 		UserModel userModel = new UserModel();
 		userModel.setUsername(username);
-		userModel.setPassword(password);
+		userModel.setPassword(passwordEncoder.encode(password));
+		
 		try {
 			userRepository.save(userModel);
 		} catch (Exception e) {
-			return ResponseEntity.ok(new AuthenticationResponse("Error during client subscription  "  + username));
+			return ResponseEntity.ok(new AuthenticationResponse("Error during client subscription "  + username));
 		}	
 		
-		return ResponseEntity.ok(new AuthenticationResponse("Succesful subscription for client  "  + username));	
+		return ResponseEntity.ok(new AuthenticationResponse("Succesful subscription for client "  + username));	
 	}
 	
 	
