@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.vuttr.model.AuthenticationRequest;
 import br.com.api.vuttr.model.AuthenticationResponse;
-import br.com.api.vuttr.model.UserModel;
+import br.com.api.vuttr.model.User;
 import br.com.api.vuttr.repository.UserRepository;
 import br.com.api.vuttr.service.TokenService;
 import br.com.api.vuttr.service.UserService;
@@ -43,14 +43,14 @@ public class AuthenticationController {
 		String username = authenticationRequest.getUsername();
 		String password = authenticationRequest.getPassword();
 		
-		UserModel userModel = new UserModel();
-		userModel.setUsername(username);
-		userModel.setPassword(passwordEncoder.encode(password));
+		User user = new User();
+		user.setUsername(username);
+		user.setPassword(passwordEncoder.encode(password));
 		
 		try {
-			userRepository.save(userModel);
+			userRepository.save(user);
 		} catch (Exception e) {
-			return ResponseEntity.ok(new AuthenticationResponse("Error during client subscription "  + username));
+			return ResponseEntity.badRequest().body(new AuthenticationResponse("Error during client subscription  "  + username));
 		}	
 		
 		return ResponseEntity.ok(new AuthenticationResponse("Succesful subscription for client "  + username));	
@@ -66,7 +66,7 @@ public class AuthenticationController {
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 		} catch (Exception e) {
-			return ResponseEntity.ok(new AuthenticationResponse("Error during client authentication "  + username));
+			return ResponseEntity.badRequest().body(new AuthenticationResponse("Error during client authentication "  + username));
 		}
 		
 		UserDetails loadedUser = userService.loadUserByUsername(username);

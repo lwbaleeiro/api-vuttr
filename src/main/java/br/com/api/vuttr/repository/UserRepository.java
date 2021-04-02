@@ -3,11 +3,11 @@ package br.com.api.vuttr.repository;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import br.com.api.vuttr.model.UserModel;
+import br.com.api.vuttr.model.User;
 
 @Repository
-public interface UserRepository extends MongoRepository<UserModel, String>{
+public interface UserRepository extends MongoRepository<User, String>{
 
-	UserModel findByUsername(String username);
+	User findByUsername(String username);
 	
 }
