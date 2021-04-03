@@ -6,9 +6,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import br.com.api.vuttr.model.Tool;
+import br.com.api.vuttr.model.User;
 import br.com.api.vuttr.repository.ToolRepository;
+import br.com.api.vuttr.repository.UserRepository;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
@@ -20,7 +23,7 @@ public class VuttrApplication {
 	}
 
 	@Bean
-	CommandLineRunner init(ToolRepository toolRepository) {
+	CommandLineRunner initTool(ToolRepository toolRepository) {
 
 		return args -> {
 	
@@ -35,6 +38,26 @@ public class VuttrApplication {
 				tool.setTags(tags);
 				
 				toolRepository.save(tool);
+
+			}
+
+		};
+
+	}
+	
+	@Bean
+	CommandLineRunner initUser(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+
+		return args -> {
+	
+			List<User> users = userRepository.findAll();
+			if (users.isEmpty()) {
+
+				User user = new User();
+				user.setUsername("AuthUser");
+				user.setPassword(passwordEncoder.encode("authuser"));
+				
+				userRepository.save(user);
 
 			}
 
