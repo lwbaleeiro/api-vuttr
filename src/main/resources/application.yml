@@ -1,0 +1,13 @@
+# Spring properties
+spring:
+  application:
+    name: vuttr
+    data:
+        mongodb:
+            host: localhost
+            port: 27017
+            database: db_vuttr 
+
+# HTTP Server (Tomcat) Port
+server: 
+  port: 3000

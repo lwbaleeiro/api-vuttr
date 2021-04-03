@@ -77,7 +77,8 @@ class ToolsControllerTest {
 	
 	@Test
 	public void mustReturn201WhenSaveNewTool() throws Exception {
-		String json = "{\"title\": \"test 1\", \"link\": \"www.test.org\", \"description\": \"some test.\", \"tags\": [\"test_1\", \"test_2\"]}";
+		String json = "{\"title\": \"hotel\", \"link\": \"https://github.com/typicode/hotel\", \"description\":"
+				+ " \"Local app manager. Start apps within your browser.\", \"tags\": [\"node\", \"developer\"]}";
 		
 		mockMvc
 			.perform(MockMvcRequestBuilders
